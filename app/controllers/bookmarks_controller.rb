@@ -7,7 +7,7 @@ class BookmarksController < ApplicationController
   end 
 
   def show 
-    render json: bookmark
+    render json: @bookmark
   end 
 
   def create 
