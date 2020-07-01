@@ -1,8 +1,9 @@
 class BookmarksController < ApplicationController
+  before_action :authenticate_user
   before_action :set_bookmark, only: [:show, :update, :destroy]
 
   def index 
-    bookmarks = Bookmark.all.order(id: "asc")
+    bookmarks = current_user.bookmarks.order(id: "asc")
     render json: bookmarks
   end 
 
@@ -11,7 +12,7 @@ class BookmarksController < ApplicationController
   end 
 
   def create 
-    Bookmark.create(bookmark_params)
+    current_user.bookmarks.create(bookmark_params)
     render json: "created bookmark", status: :created
   end 
 
