@@ -4,7 +4,7 @@ class BookmarksController < ApplicationController
 
   def index
     bookmarks = current_user.bookmarks.order(id: 'asc')
-    render json: { bookmarks: bookmarks }
+    render json: { bookmarks: bookmarks, current_user: current_user.email }
   end
 
   def show
