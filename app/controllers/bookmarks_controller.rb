@@ -1,6 +1,6 @@
 class BookmarksController < ApplicationController
   before_action :authenticate_user
-  before_action :set_bookmark, only: %i[show update destroy]
+  before_action :set_bookmark, only: %i[show update destroy update_image]
 
   def index
     bookmarks = current_user.bookmarks.with_attached_image
@@ -25,6 +25,12 @@ class BookmarksController < ApplicationController
     @bookmark.destroy
     render json: 'bookmark deleted', status: :ok
   end
+
+  def update_image 
+    @bookmark.image.purge
+    @bookmark.image.attach(bookmark_params[:image])
+    render json: url_for(@bookmark.image)
+  end 
 
   private
 
