@@ -3,8 +3,8 @@ class BookmarksController < ApplicationController
   before_action :set_bookmark, only: %i[show update destroy]
 
   def index
-    bookmarks = generate_image_urls(current_user.bookmarks.with_attached_image)
-    render json: { bookmarks: bookmarks, current_user: current_user.email }
+    bookmarks = current_user.bookmarks.with_attached_image
+    render json: { bookmarks: generate_image_urls(bookmarks), current_user: current_user.email }
   end
 
   def show
