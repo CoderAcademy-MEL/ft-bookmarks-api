@@ -13,7 +13,11 @@ class BookmarksController < ApplicationController
 
   def create
     bookmark = current_user.bookmarks.create(bookmark_params)
-    render json: { bookmark: bookmark, image: url_for(bookmark.image) }, status: :created
+    if bookmark_params[:image]
+      render json: { bookmark: bookmark, image: url_for(bookmark.image) }, status: :created
+    else
+      render json: { bookmark: bookmark, image: '' }, status: :created
+    end
   end
 
   def update
@@ -26,11 +30,11 @@ class BookmarksController < ApplicationController
     render json: 'bookmark deleted', status: :ok
   end
 
-  def update_image 
+  def update_image
     @bookmark.image.purge
     @bookmark.image.attach(bookmark_params[:image])
     render json: url_for(@bookmark.image)
-  end 
+  end
 
   private
 
